@@ -12,6 +12,11 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut setence = String::new();
     while let Ok(size) = stdin.read_line(&mut setence) {
         if size == 0 { break }
+
+        if !setence.ends_with("\r\n") {
+            setence = setence.trim_end_matches('\n').to_owned();
+            setence.push_str("\r\n");
+        }
         
         let Ok(nmea) = Nmea::parse_nmea_string(&setence) else { setence.clear(); continue };
     
